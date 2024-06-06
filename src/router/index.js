@@ -17,7 +17,7 @@ const routes = [
   { path: '/signup', name: 'SignUp', component: SignUp },
   { path: '/profile', name: 'Profile', component: Profile ,meta: { requiresAuth: true }},
   { path: '/edit-profile', name: 'EditProfile', component: EditProfile ,meta: { requiresAuth: true }},
-  { path: '/recepies/:tag', name: 'recepies', component: Category ,props:true,meta: { requiresAuth: true }},
+  { path: '/recepies/:tag', name: 'Category', component: Category ,props:true,meta: { requiresAuth: true }},
   { path: '/AllCategories', name: 'Allcategories', component: Category ,props:true,meta: { requiresAuth: true }},
   { path: '/discussion/:id', name: 'Discussion', component: Discussion ,meta: { requiresAuth: true }},
   { path: '/create-discussion', name: 'CreateDiscussion', component: CreateDiscussion ,meta: { requiresAuth: true }},
@@ -38,7 +38,6 @@ router.beforeEach((to, from, next) => {
   
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth);
    const currentUser = auth.currentUser;
-  console.log(currentUser)
 
   if (requiresAuth && !currentUser) {
     next('/login');
