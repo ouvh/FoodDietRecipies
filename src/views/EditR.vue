@@ -118,7 +118,7 @@
 
 <script>
 import Navbar from "@/components/Layout/NavBar.vue";
-import { db, auth } from "../../firebase";
+import { db, auth } from "../firebase";
 import Toastify from 'toastify-js';
 import 'toastify-js/src/toastify.css';
 
@@ -149,6 +149,35 @@ export default {
         { value: 'gluten-free', text: 'Gluten-Free' },
       ],
     };
+  },
+  
+async created() {
+    try {
+      const discussionId = this.$route.params.tag;
+
+      const discussionDoc = await db
+        .collection("discussions")
+        .doc(discussionId)
+        .get();
+     const ii = { id: discussionDoc.id, ...discussionDoc.data() };
+
+        this.title = ii.title
+        this.content = ii.content
+        this.diet = ii.tags
+        this.image_link = ii.image_link
+        this.ingredients = ii.ingredients
+        this.instructions = ii.instructions
+        this.prep_time = ii.prep_time
+
+
+
+
+
+      this.loading = false
+
+    } catch (error) {
+      console.error("Error fetching discussion or replies:", error);
+    }
   },
   methods: { 
     addDiet(diet) {
@@ -217,7 +246,7 @@ export default {
 
       const user = auth.currentUser;
       try {
-        await db.collection("discussions").add({
+        await db.collection("discussions").doc(this.$route.params.tag).update({
           title: this.title,
           content: this.content,
           author: user.uid,

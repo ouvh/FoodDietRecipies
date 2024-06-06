@@ -55,7 +55,6 @@
         </b-card>
       </b-col>
     </b-row>
-    {{discussion.created_at}}
   </b-container>
 
 
@@ -80,6 +79,8 @@ export default {
   async created() {
     try {
       const discussionId = this.$route.params.id;
+      console.log("i am here")
+      console.log(discussionId)
 
       const discussionDoc = await db
         .collection("discussions")

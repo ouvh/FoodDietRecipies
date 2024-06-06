@@ -56,6 +56,30 @@
             >View</b-button
           >
         </b-col>
+
+         <b-col cols="12">
+          <b-button
+            class="oopoinpin"
+            style="width:100%;margin-top:10px"
+             @click.prevent="this.$router.push('/edit-recipe/' + discussion.id)"
+            >Edit</b-button
+          >
+        </b-col>
+
+        <b-col cols="12">
+          <b-button
+            class="oopoinpin"
+            style="width:100%;margin-top:10px"
+            @click="deleteR(discussion.id)"
+            >Delete</b-button
+          >
+        </b-col>
+
+
+
+
+
+
         <b-col>
           <div class="tags mt-3">
             <b-badge
@@ -153,6 +177,9 @@ try {
 
   },
   methods: {
+    viewDiscussion(id) {
+      this.$router.push(`/discussion/${id}`);
+    },
     editProfile() {
       this.$router.push('/edit-profile');
     },
@@ -163,6 +190,12 @@ try {
       }
       return content;
     },
+    async deleteR(id){
+      await db.collection("discussions").doc(id).delete()
+      this.$router.push('/')
+
+
+    }
   }
 };
 </script>

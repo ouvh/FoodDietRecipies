@@ -8,6 +8,7 @@ import Discussion from '../views/DiscussionPage.vue';
 import EditProfile from '../components/User/EditProfile.vue';
 import CreateDiscussion from '../components/Discussion/CreateDiscussion.vue';
 import ResetPassword from '../components/Auth/ResetPassword.vue'
+import EditR from "../views/EditR.vue"
 import {auth} from "@/firebase"
 
 const routes = [
@@ -21,6 +22,8 @@ const routes = [
   { path: '/discussion/:id', name: 'Discussion', component: Discussion ,meta: { requiresAuth: true }},
   { path: '/create-discussion', name: 'CreateDiscussion', component: CreateDiscussion ,meta: { requiresAuth: true }},
   { path: '/reset-password', name: 'ResetPassword', component: ResetPassword },
+  { path: '/edit-recipe/:tag', name: 'recepies', component: EditR ,props:true,meta: { requiresAuth: true }},
+
 
 ];
 
