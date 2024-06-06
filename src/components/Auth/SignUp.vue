@@ -64,16 +64,6 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
             <b-form-group label="Email">
               <b-form-input
                 v-model="email"
@@ -202,7 +192,8 @@ export default {
           await db.collection('users').doc(auth.currentUser.uid).set({
             userid: auth.currentUser.uid,
             name:this.name,
-            diets:this.diet
+            diets:this.diet,
+            email:this.email
           },{ merge: true });
           this.$router.push('/');
         } catch (error) {

@@ -15,10 +15,7 @@ export default {
 @import '~bootstrap-vue-3/dist/bootstrap-vue-3.css';
 
 
-#pp{
-  min-width: 1000px;
-  min-width: ;
-}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

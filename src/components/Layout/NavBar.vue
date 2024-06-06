@@ -5,25 +5,27 @@
     class="fixed-top-with-margin fixed-top"
     style="background-color:orange"
   >
-    <b-navbar-brand href="/">Food Recipies</b-navbar-brand>
+    <b-navbar-brand href="/">Food Recipes</b-navbar-brand>
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
         <b-nav-item to="/">Home</b-nav-item>
-        <b-nav-item to="/AllCategories">Recepies</b-nav-item>
+        <b-nav-item to="/AllCategories">Recipes</b-nav-item>
 
       </b-navbar-nav>
       <b-navbar-nav class="ml-auto">
         <b-nav-item v-if="!user" to="/login">Login</b-nav-item>
         <b-nav-item v-if="!user" to="/signup">Sign Up</b-nav-item>
         <b-nav-item v-if="user" to="/profile">Profile</b-nav-item>
-        <b-nav-item v-if="user" to="/create-discussion">Add new recipie</b-nav-item>
+        <b-nav-item v-if="user" to="/create-discussion">Add new recipe</b-nav-item>
         <b-nav-item v-if="user" @click="logout">Logout</b-nav-item>
       </b-navbar-nav>
     </b-collapse>
 
     
   </b-navbar>
+
+
 </template>
 
 <script>

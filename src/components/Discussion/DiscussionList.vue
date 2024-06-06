@@ -25,7 +25,7 @@
   :key="discussion.id"
   cols="4"
 >
-  <b-card style="background-color:orange;height:300px;overflow:hidden;overflow:scroll" text-variant="white" class="mb-3 uuu  rounded">
+  <b-card style="background-color:orange;height:400px;overflow:hidden;overflow:scroll" text-variant="white" class="mb-3 uuu  rounded">
     <!-- Add the image here -->
     <b-card-img
       :src="discussion.image_link"
@@ -51,7 +51,7 @@
       <b-row class="mt-3">
         <b-col cols="12">
           <b-button
-            variant="secondary"
+            class="oopoinpin"
             style="width:100%"
             @click="viewDiscussion(discussion.id)"
             >View</b-button
@@ -90,6 +90,8 @@
       <b-progress :value="progress" max="100" class="loading-bar"></b-progress>
     </div>
   </div>
+
+  
 </template>
 
 <script>
@@ -110,9 +112,7 @@ export default {
     try {
       const query = await db.collection("discussions");
       const snapshot = await query.orderBy("createdAt", "desc").get();
-      console.log("ppppp")
-  console.log(snapshot)
-      console.log("ppppp")
+      
 
       this.progress += 30;
       this.discussions = [];
@@ -179,6 +179,12 @@ export default {
 </script>
 
 <style scoped>
+
+.oopoinpin{
+  color:black;
+  background-color:white;
+  border-color: black;
+}
 
 
 ::-webkit-scrollbar {

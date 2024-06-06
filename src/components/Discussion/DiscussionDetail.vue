@@ -1,32 +1,68 @@
 <template>
-  <b-container class="discussion-container">
-    <b-card bg-variant="light" text-variant="dark" class="discussion-card">
-      <b-card-title>{{ discussion.title }}</b-card-title>
-      <b-card-text>{{ discussion.content }}</b-card-text>
-    </b-card>
+  <b-container v-if="!loading">
+    <b-row class="justify-content-center">
+      <b-col md="8">
+        <b-card class="mb-3 shadow-sm" no-body style="border-radius: 15px; overflow: hidden;">
+          
 
-    <b-card
-      bg-variant="secondary"
-      text-variant="white"
-      class="mt-3"
-      v-for="reply in replies"
-      :key="reply.id"
-    >
-      <b-card-text class="reply-by-text">
-        Reply by: <span class="reply-username">{{ reply.username }}</span>
-      </b-card-text>
-      <b-card-text>{{ reply.content }}</b-card-text>
-    </b-card>
 
-    <b-form @submit.prevent="postReply" class="mt-3">
-      <b-form-group label="Reply">
-        <b-form-textarea v-model="replyContent" required></b-form-textarea>
-      </b-form-group>
-      <b-button type="submit" variant="success" class="btn-block"
-        >Post Reply</b-button
-      >
-    </b-form>
+          <b-img :src="discussion.image_link" fluid alt="Image" class="mb-3" style="border-bottom: 5px solid #ff6600;height:500px;  object-fit: cover" />
+          <b-card-header class="d-flex justify-content-between align-items-center" style="background-color: #fff; border-bottom: none; padding: 20px;">
+            <h5 class="mb-0" style="color: #ff6600;">{{ discussion.title }}</h5>
+            <div>
+              <b-badge     @click.prevent="this.$router.push('/recepies/' + tag)" v-for="(tag, index) in discussion.tags" :key="index" variant="dark" class="mx-1" style="background-color: #ff6600; color: #fff;cursor:pointer">
+                {{ tag }}
+              </b-badge>
+            </div>
+          </b-card-header>
+
+
+          <b-card-body style="background-color: #fff; padding: 20px;">
+
+         <b-card-body style="background-color: #fff; padding: 20px;">
+    <b-card-text>
+        <div>
+            <p><i class="fas fa-user"></i> <strong>Description:</strong> {{ discussion.content }} qeifonqefinqepfnqpef qfpoqfpoiqpef qfpoqfpoiqpef qfpoqfpoiqpef qfpoqfpoiqpef qfpoqfpoiqpef qfpoqfpoiqpef qfpoqfpoiqf qfoqpenfqenf popi</p>
+            <p><i class="far fa-clock"></i> <strong>Created At:</strong> {{ formatDate(discussion.createdAt) }}</p>
+        </div>
+        <div>
+            <p><i class="fas fa-utensils"></i> <strong>Ingredients:</strong></p>
+            <ul class="list-unstyled" style="padding-left: 20px;">
+                <li v-for="(ingredient, index) in discussion.ingredients" :key="index"><i class="fas fa-check"></i> {{ ingredient }}</li>
+            </ul>
+        </div>
+        <div>
+            <p><i class="fas fa-book-open"></i> <strong>Instructions:</strong></p>
+            <ol style="padding-left: 20px;">
+                <li v-for="(instruction, index) in discussion.instructions" :key="index"><i class="fas fa-angle-right"></i> {{ instruction }}</li>
+            </ol>
+        </div>
+        <p><i class="far fa-clock"></i> <strong>Prep Time:</strong> {{ discussion.prep_time }}</p>
+    </b-card-text>
+</b-card-body>
+
+
+          </b-card-body>
+
+
+
+
+
+
+
+
+
+        </b-card>
+      </b-col>
+    </b-row>
+    {{discussion.created_at}}
   </b-container>
+
+
+
+
+
+  
 </template>
 
 <script>
@@ -38,6 +74,7 @@ export default {
       discussion: {},
       replies: [],
       replyContent: "",
+      loading:true
     };
   },
   async created() {
@@ -49,34 +86,18 @@ export default {
         .doc(discussionId)
         .get();
       this.discussion = { id: discussionDoc.id, ...discussionDoc.data() };
+      this.loading = false
 
-      const repliesSnapshot = await db
-        .collection("replies")
-        .where("discussionId", "==", discussionId)
-        .orderBy("createdAt", "asc")
-        .get();
-
-      let temp = [];
-
-      for (const doc of repliesSnapshot.docs) {
-        const reply = { id: doc.id, ...doc.data() };
-        const userSnapshot = await db
-          .collection("users")
-          .doc(reply.author)
-          .get();
-        if (userSnapshot.exists) {
-          reply.username = userSnapshot.data().name;
-        } else {
-          reply.username = "Unknown";
-        }
-        temp.push(reply);
-      }
-      this.replies = temp;
     } catch (error) {
       console.error("Error fetching discussion or replies:", error);
     }
   },
   methods: {
+    formatDate(timestamp) {
+      console.log(timestamp.seconds)
+            const date = new Date(timestamp.seconds * 1000);
+            return date.toLocaleString(); // Adjust formatting as needed
+        },
     async postReply() {
       const user = auth.currentUser;
 
@@ -103,6 +124,10 @@ export default {
   },
 };
 </script>
+
+
+
+
 
 <style scoped>
 .discussion-container {

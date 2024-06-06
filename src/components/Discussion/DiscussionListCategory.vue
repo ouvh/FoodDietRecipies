@@ -51,54 +51,78 @@
     </b-form-text>
   </b-container>
 
+
+  
   <b-container v-if="!loading">
-    <b-row>
+
+    <b-row >
+
       <b-col
-        v-for="discussion in filteredDiscussions"
-        :key="discussion.id"
-        cols="4"
-      >
-        <b-card style="background-color:orange" text-variant="white" class="mb-3 rounded">
-          <b-card-header
-            class="d-flex justify-content-between align-items-center"
+  v-for="discussion in filteredDiscussions"
+  :key="discussion.id"
+  cols="4"
+>
+  <b-card style="background-color:orange;height:400px;overflow:hidden;overflow:scroll" text-variant="white" class="mb-3 uuu  rounded">
+    <!-- Add the image here -->
+    <b-card-img
+      :src="discussion.image_link"
+      alt="Card image"
+      class="custom-img"
+      style="width:100%"
+    ></b-card-img>
+    
+    <b-card-header
+      class="d-flex flex-wrap justify-content-between align-items-center"
+    >
+      <h5 class="mb-0">{{ discussion.title }}</h5>
+      <div class="created-by text-light">
+        <b-badge variant="light" class="text-dark font-weight-bold p-3">
+          Posted by: {{ discussion.username }}
+        </b-badge>
+      </div>
+    </b-card-header>
+
+    
+    <b-card-body>
+      <b-card-text>{{ truncateContent(discussion.content) }}</b-card-text>
+      <b-row class="mt-3">
+        <b-col cols="12">
+          <b-button
+            variant="secondary"
+            style="width:100%"
+            @click="viewDiscussion(discussion.id)"
+            >View</b-button
           >
-            <h5 class="mb-0">{{ discussion.title }}</h5>
-            <div class="created-by text-light">
-              <b-badge variant="light" class="text-dark font-weight-bold p-2">
-                Posted by: {{ discussion.username }}
-              </b-badge>
-            </div>
-          </b-card-header>
-          <b-card-body>
-            <b-card-text>{{ truncateContent(discussion.content) }}</b-card-text>
-            <b-row class="mt-3">
-              <b-col cols="auto">
-                <b-button
-                  variant="secondary"
-                  @click="viewDiscussion(discussion.id)"
-                >
-                  View
-                </b-button>
-              </b-col>
-              <b-col>
-                <div class="tags mt-3">
-                  <b-badge
-                    v-for="(tag, index) in discussion.tags"
-                    :key="index"
-                    variant="light"
-                    class="tag-badge"
-                    @click.prevent="this.$router.push('/recepies/' + tag)"
-                  >
-                    {{ tag }}
-                  </b-badge>
-                </div>
-              </b-col>
-            </b-row>
-          </b-card-body>
-        </b-card>
-      </b-col>
+        </b-col>
+        <b-col>
+          <div class="tags mt-3">
+            <b-badge
+              v-for="(tag, index) in discussion.tags"
+              :key="index"
+              variant="light"
+              class="tag-badge"
+              @click.prevent="this.$router.push('/recepies/' + tag)"
+            >
+              {{ tag }}
+            </b-badge>
+          </div>
+        </b-col>
+      </b-row>
+    </b-card-body>
+
+  </b-card>
+
+
+</b-col>
+
+
+      
     </b-row>
+
   </b-container>
+
+
+
 
   <div v-if="loading" class="loading-page">
     <div class="loading-container">
@@ -231,7 +255,42 @@ export default {
 };
 </script>
 
+
 <style scoped>
+
+
+::-webkit-scrollbar {
+  width: 5px; /* Width of the scrollbar */
+  
+
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Color of the track */
+   
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Color of the thumb */
+  border-radius: 5px; /* Roundness of the thumb */
+transition: background-color 0.1s ease; /* Smooth transition */
+
+}
+
+
+.uuu:hover::-webkit-scrollbar-thumb {
+  background-color: #888; /* Adjust as needed */
+
+}
+
+
+.custom-img {
+  height: 150px; /* Fixed height for the image */
+  object-fit: cover; /* Ensure the image covers the specified height without stretching */
+  width: 100%; /* Ensure the image takes the full width of the card */
+}
+
+
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -252,6 +311,7 @@ export default {
   color: #f8f9fa;
 }
 
+
 .loading-container {
   text-align: center;
 }
@@ -265,25 +325,18 @@ export default {
   width: 100%;
   max-width: 400px;
   margin: 0 auto;
-  height:2px
+  height: 3px;
 }
 
 .loading-bar .progress-bar {
   background-color: #28a745;
 }
 
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-}
 .tag-badge {
-  margin-right: 0.5rem;
-  margin-bottom: 0.5rem;
-  cursor: pointer;
-  transition: background-color 0.3s, transform 0.3s;
-}
-.tag-badge:hover {
-  background-color: #ccc;
-  transform: scale(1.1);
+  margin-right: 10px;
+  margin-bottom: 10px;
 }
 </style>
+
+
+
