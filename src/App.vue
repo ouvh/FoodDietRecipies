@@ -1,12 +1,24 @@
 <template>
-  <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
-  </nav>
-  <router-view/>
+  <div id="pp"><router-view/></div>
 </template>
 
+<script>
+export default {
+  setup() {
+    
+  },
+}
+</script>
+
 <style>
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap-vue-3/dist/bootstrap-vue-3.css';
+
+
+#pp{
+  min-width: 1000px;
+  min-width: ;
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
